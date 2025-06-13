@@ -22,9 +22,9 @@ arp.spoof on;
 Step 3: let bettercap redirect traffic to mitmproxy
 ---------------------------------------------------
 ```bettercap
-set arp.proxy.dst_port 8080;
-set arp.proxy.src_port 80;
-arp.proxy on
+set any.proxy.dst_port 8080;
+set any.proxy.src_port 80;
+any.proxy on
 ```
 
 Step 4: run mitmproxy with following code:
