@@ -26,3 +26,9 @@ def request(flow: http.HTTPFlow):
                         modified,
                         {"Content-Type": "text/html"}
                         )
+
+
+# TODO: somehow doesn't get triggered. fix setup
+def tls_clienthello(flow):
+    if flow.client_hello:
+        ctx.log.info(f"SNI: {flow.client_hello.sni}")

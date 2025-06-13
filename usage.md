@@ -23,16 +23,20 @@ Step 3: let bettercap redirect traffic to mitmproxy
 ---------------------------------------------------
 ```bettercap
 set any.proxy.dst_port 8080;
-set any.proxy.src_port 80;
+set any.proxy.src_port 80, 443;
 any.proxy on
 ```
+- redirecting traffic from 443 will let mitmproxy read sni from client hello
 
 Step 4: run mitmproxy with following code:
 ------------------------------------------
 ```bash
 sudo mitmproxy --mode transparent -p 8080 -s [SCRIPT.py]
 ```
-* mitmproxy has to run in transparent mode because target browser is unaware of the proxy
-    * normally, the browser knows if mitmproxy is listening and this requires manual setup on the browser side
-    * transparent mode goes under the assumption that the browser isn't aware of it listening (necessary for intercepting)
-* -s SCRIPT.py tells mitmproxy which python script to use
+- mitmproxy has to run in transparent mode because target browser is unaware of the proxy
+    - normally, the browser knows if mitmproxy is listening and this requires manual setup on the browser side
+    - transparent mode goes under the assumption that the browser isn't aware of it listening (necessary for intercepting)
+- -s SCRIPT.py tells mitmproxy which python script to use
+- TODO: make mitmproxy trigger tls_clienthello event hook (somehow doesn't work with current setup)
+
+
