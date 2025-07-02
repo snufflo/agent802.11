@@ -53,7 +53,7 @@ Script to perform man in the middle attack
 
 What is ARP Spoofing?
 =====================
-![Diagram for arp spoofing](/images/arp_spoof_colored.drawio.png)
+![Diagram for arp spoofing](/images/arp_spoof_colored.drawio.jpg)
 ARP Spoofing is the act of pretending to be another device by broadcasting a forged ARP packet.
 If done successfully, an adversary is able to redirect packets to its own device. 
 ARP Spoofing is usually done by 
@@ -63,7 +63,7 @@ On succession, T becomes the man in the middle
 
 What is SSL/TLS Stripping?
 ==========================
-![Diagram for ssl_stripping](/images/ssl_stripping.drawio.png)
+![Diagram for ssl_stripping](/images/ssl_stripping.drawio.jpg)
 SSL/TLS Stripping, in context of HTTPS connections, is the act of removing SSL/TLS encryption of a HTTPS connection.
 If done successfully, an adversary is able to view full HTTP requests in plaintext.
 Combined with the ARP poisoning attack, the adversary is able to modify and take full control over HTTP responses of requested servers.
