@@ -20,6 +20,7 @@ Internet and Network Security project
 2) Discover IP address of target through `net.show` module from `bettercap` (alternative: `nmap`)
 3) Attempt ARP Poisoning through `arp.spoof` module from `bettercap`
 4) Attempt SSL/TLS Stripping and modify HTTP requests through `mitmproxy`
+
 For detailed steps of procedure, see [usage.md](https://github.com/snufflo/agent802.11/blob/main/usage.md)
 
 ### Tools
