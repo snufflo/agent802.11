@@ -13,7 +13,6 @@ Use ARP poisoning to inject malice files when the user downloads a file.
 Our setup will discover if someone downlaods a file, and instead our file is downloaded
 
 #### Road map
-
 - [x] Manage ARP spoofing
 - [x] Attempt downgrade to HTTP connection
 - [x] Listening to downloads and what files
@@ -54,7 +53,12 @@ Script to perform man in the middle attack
 What is ARP Spoofing?
 =====================
 ![Diagram for arp spoofing](/images/arp_spoof_colored.drawio.jpg)
+(Diagram demonstrating ARP poisoning in local network)
+
 ARP Spoofing is the act of pretending to be another device by broadcasting a forged ARP packet.
+    - This kind of ARP broadcast reply, which is not triggered by a request, is called **Gratituous ARP Reply**.
+    - Arp spoofing is essentially done through gratituous ARP replies
+    - Since ARP is a trust-based protocol, receiving ends would normally have to accept such replies, thus givin adversaries an advantage
 If done successfully, an adversary is able to redirect packets to its own device. 
 ARP Spoofing is usually done by 
 1. deceiving the target endpoint device E that adversary T is the default gateway accesspoint A.
@@ -64,6 +68,8 @@ On succession, T becomes the man in the middle
 What is SSL/TLS Stripping?
 ==========================
 ![Diagram for ssl_stripping](/images/ssl_stripping.drawio.jpg)
+(Diagram demonstrating SSL/TLS Stripping through ARP poisoning)
+
 SSL/TLS Stripping, in context of HTTPS connections, is the act of removing SSL/TLS encryption of a HTTPS connection.
 If done successfully, an adversary is able to view full HTTP requests in plaintext.
 Combined with the ARP poisoning attack, the adversary is able to modify and take full control over HTTP responses of requested servers.
